@@ -1,3 +1,5 @@
+package buildings.dwelling;
+
 public class DwellingFloor {
     private Flat[] flats;
 
@@ -12,7 +14,7 @@ public class DwellingFloor {
         }
     }
 
-    public int getFlatsAmount(){
+    public int getSpacesAmount(){
         return flats.length;
     }
 
@@ -32,19 +34,19 @@ public class DwellingFloor {
         return sum;
     }
 
-    public Flat[] getFlats() {
+    public Flat[] getSpaces() {
         return flats;
     }
 
-    public Flat getFlat(int num){
+    public Flat getSpace(int num){
         return flats[num];
     }
 
-    public void setFlat(int num, Flat newFlat){
+    public void setSpace(int num, Flat newFlat){
         this.flats[num] = newFlat;
     }
 
-    public void addFlat(int num, Flat newFlat){
+    public void addSpace(int num, Flat newFlat){
         if (num > flats.length)
         {
             System.out.println("Error");
@@ -60,7 +62,7 @@ public class DwellingFloor {
         flats = newFlats;
     }
 
-    public void dellFlat(int num){
+    public void deleteSpace(int num){
         if (num > flats.length)
         {
             System.out.println("Error");

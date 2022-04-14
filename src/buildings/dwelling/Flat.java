@@ -1,3 +1,5 @@
+package buildings.dwelling;
+
 public class Flat {
     private double square;
     private int rooms;

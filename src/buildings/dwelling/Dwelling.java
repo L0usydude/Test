@@ -1,3 +1,5 @@
+package buildings.dwelling;
+
 public class Dwelling {
     private DwellingFloor[] floors;
 
@@ -21,10 +23,10 @@ public class Dwelling {
         return floors.length;
     }
 
-    public int getFlatsAmount(){
+    public int getSpacesAmount(){
         int sum = 0;
         for (int i = 0; i < floors.length; i++) {
-            sum += floors[i].getFlatsAmount();
+            sum += floors[i].getSpacesAmount();
         }
         return sum;
     }
