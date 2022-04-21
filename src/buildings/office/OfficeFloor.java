@@ -1,6 +1,7 @@
 package buildings.office;
 
 import buildings.dwelling.Flat;
+import buildings.exceptions.SpaceIndexOutOfBoundsException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,17 +56,25 @@ public class OfficeFloor {
     }
 
     public Office getSpace(int num){
+        if (num > officeList.size())
+        {
+            throw new SpaceIndexOutOfBoundsException(num,officeList.size());
+        }
         return officeList.get(num);
     }
 
     public void setSpace(int num, Office newOffice){
+        if (num > officeList.size())
+        {
+            throw new SpaceIndexOutOfBoundsException(num,officeList.size());
+        }
         this.officeList.set(num, newOffice);
     }
 
     public void addSpace(int num, Office newOffice){
         if (num > officeList.size())
         {
-            System.out.println("Error");
+            throw new SpaceIndexOutOfBoundsException(num,officeList.size());
         }
         List<Office> offices = new ArrayList<>();
         for (int i = 0; i < num; i++) {
@@ -78,6 +87,10 @@ public class OfficeFloor {
     }
 
     public void deleteSpace(int num){
+        if (num > officeList.size())
+        {
+            throw new SpaceIndexOutOfBoundsException(num,officeList.size());
+        }
         officeList.remove(num);
     }
 

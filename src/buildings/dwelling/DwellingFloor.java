@@ -1,5 +1,7 @@
 package buildings.dwelling;
 
+import buildings.exceptions.SpaceIndexOutOfBoundsException;
+
 public class DwellingFloor {
     private Flat[] flats;
 
@@ -39,17 +41,25 @@ public class DwellingFloor {
     }
 
     public Flat getSpace(int num){
+        if (num > flats.length)
+        {
+            throw new SpaceIndexOutOfBoundsException(num, flats.length);
+        }
         return flats[num];
     }
 
     public void setSpace(int num, Flat newFlat){
+        if (num > flats.length)
+        {
+            throw new SpaceIndexOutOfBoundsException(num, flats.length);
+        }
         this.flats[num] = newFlat;
     }
 
     public void addSpace(int num, Flat newFlat){
         if (num > flats.length)
         {
-            System.out.println("Error");
+            throw new SpaceIndexOutOfBoundsException(num, flats.length);
         }
         Flat[] newFlats = new Flat[flats.length+1];
         for (int i = 0; i < num; i++) {
@@ -65,7 +75,7 @@ public class DwellingFloor {
     public void deleteSpace(int num){
         if (num > flats.length)
         {
-            System.out.println("Error");
+            throw new SpaceIndexOutOfBoundsException(num, flats.length);
         }
         Flat[] newFlats = new Flat[flats.length-1];
         for (int i = 0; i < num; i++) {
