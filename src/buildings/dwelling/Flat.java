@@ -1,6 +1,11 @@
 package buildings.dwelling;
 
-public class Flat {
+import buildings.exceptions.InvalidRoomsCountException;
+import buildings.exceptions.InvalidSpaceAreaException;
+import buildings.exceptions.SpaceIndexOutOfBoundsException;
+import buildings.interfaces.Space;
+
+public class Flat implements Space {
     private double square;
     private int rooms;
 
@@ -13,11 +18,20 @@ public class Flat {
     }
 
     public Flat(double square) {
+        if (square > 200){
+            throw new InvalidSpaceAreaException(square, 200);
+        }
         this.square = square;
         rooms = ROOMS_VALUE;
     }
 
     public Flat(double square, int rooms) {
+        if (square > 200){
+            throw new InvalidSpaceAreaException(square, 200);
+        }
+        if (rooms > 10){
+            throw new InvalidRoomsCountException(rooms, 10);
+        }
         this.rooms = rooms;
         this.square = square;
     }
@@ -27,6 +41,9 @@ public class Flat {
     }
 
     public void setSquare(double square) {
+        if (square > 200){
+            throw new InvalidSpaceAreaException(square, 200);
+        }
         this.square = square;
     }
 
@@ -35,6 +52,9 @@ public class Flat {
     }
 
     public void setRooms(int rooms) {
+        if (rooms > 10){
+            throw new InvalidRoomsCountException(rooms, 10);
+        }
         this.rooms = rooms;
     }
 }

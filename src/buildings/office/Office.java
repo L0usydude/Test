@@ -1,6 +1,8 @@
 package buildings.office;
 
-public class Office {
+import buildings.interfaces.Space;
+
+public class Office implements Space {
     private double square;
     private int rooms;
 

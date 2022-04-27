@@ -2,14 +2,16 @@ package buildings.office;
 
 import buildings.dwelling.Flat;
 import buildings.exceptions.SpaceIndexOutOfBoundsException;
+import buildings.interfaces.Floor;
+import buildings.interfaces.Space;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class OfficeFloor {
-    private List<Office> officeList;
+public class OfficeFloor implements Floor {
+    private List<Space> officeList;
 
-    public OfficeFloor(List<Office> officeList) {
+    public OfficeFloor(List<Space> officeList) {
         this.officeList = officeList;
     }
 
@@ -20,7 +22,7 @@ public class OfficeFloor {
         }
     }
 
-    public OfficeFloor(Office[] offices){
+    public OfficeFloor(Space[] offices){
         officeList = new ArrayList<>();
         for (int i = 0; i < offices.length; i++) {
             officeList.add(offices[i]);
@@ -33,7 +35,7 @@ public class OfficeFloor {
 
     public double getSquareAmount(){
         double sum = 0;
-        for (Office office : officeList) {
+        for (Space office : officeList) {
             sum += office.getSquare();
         }
         return sum;
@@ -41,21 +43,21 @@ public class OfficeFloor {
 
     public int getRoomsAmount(){
         int sum = 0;
-        for (Office office : officeList) {
+        for (Space office : officeList) {
             sum += office.getRooms();
         }
         return sum;
     }
 
-    public Office[] getSpaces(){
-        Office[] offices = new Office[officeList.size()];
+    public Space[] getSpaces(){
+        Space[] offices = new Space[officeList.size()];
         for (int i = 0; i < offices.length; i++) {
             offices[i] = officeList.get(i);
         }
         return offices;
     }
 
-    public Office getSpace(int num){
+    public Space getSpace(int num){
         if (num > officeList.size())
         {
             throw new SpaceIndexOutOfBoundsException(num,officeList.size());
@@ -63,7 +65,7 @@ public class OfficeFloor {
         return officeList.get(num);
     }
 
-    public void setSpace(int num, Office newOffice){
+    public void setSpace(int num, Space newOffice){
         if (num > officeList.size())
         {
             throw new SpaceIndexOutOfBoundsException(num,officeList.size());
@@ -71,12 +73,12 @@ public class OfficeFloor {
         this.officeList.set(num, newOffice);
     }
 
-    public void addSpace(int num, Office newOffice){
+    public void addSpace(int num, Space newOffice){
         if (num > officeList.size())
         {
             throw new SpaceIndexOutOfBoundsException(num,officeList.size());
         }
-        List<Office> offices = new ArrayList<>();
+        List<Space> offices = new ArrayList<>();
         for (int i = 0; i < num; i++) {
             offices.add(officeList.get(i));
         }
@@ -94,9 +96,9 @@ public class OfficeFloor {
         officeList.remove(num);
     }
 
-    public Office getBestSpace(){
-        Office Office = officeList.get(0);
-        for (Office i: officeList) {
+    public Space getBestSpace(){
+        Space Office = officeList.get(0);
+        for (Space i: officeList) {
             if (i.getSquare() > Office.getSquare()){
                 Office = i;
             }
