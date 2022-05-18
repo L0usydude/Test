@@ -2,19 +2,25 @@ import buildings.dwelling.Dwelling;
 import buildings.dwelling.DwellingFloor;
 import buildings.dwelling.Flat;
 import buildings.exceptions.InvalidSpaceAreaException;
+import buildings.interfaces.Building;
 import buildings.interfaces.Floor;
 import buildings.office.Office;
 import buildings.office.OfficeBuilding;
 import buildings.office.OfficeFloor;
+import buildings.utils.Buildings;
 import buildings.utils.PlacementExchanger;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
         System.out.println("Hello world");
-        try{
+        try(FileOutputStream tFile = new FileOutputStream(new File("C:\\Users\\Vanya\\IdeaProjects\\Test\\Test.txt"));
+        FileInputStream tFile1 = new FileInputStream(new File("C:\\Users\\Vanya\\IdeaProjects\\Test\\Test.txt"));
+        FileWriter testWrite = new FileWriter("C:\\Users\\Vanya\\IdeaProjects\\Test\\Test.txt");
+        FileReader testRead = new FileReader("C:\\Users\\Vanya\\IdeaProjects\\Test\\Test.txt")){
 //            List<Office> offices = new ArrayList<>();
 //            Office abc1 = new Office(70, 4);
 //            Office abc2 = new Office(65, 3);
@@ -47,17 +53,33 @@ public class Main {
             ff2[0] = f2;
             Dwelling d1 = new Dwelling(ff1);
             Dwelling d2 = new Dwelling(ff2);
-            PlacementExchanger.FloorExchanger(d1,d2,0,0);
-            PlacementExchanger.SpaceExchanger(f1,f2, 0,0);
+//            PlacementExchanger.FloorExchanger(d1, d2, 0, 0);
+//            PlacementExchanger.SpaceExchanger(f1, f2, 0, 0);
+//            Buildings.outputBuilding(d1, tFile);
+//            Building d3 = Buildings.inputBuilding(tFile1)
+            Buildings.writeBuilding(d1, testWrite);
+            Building d3 = Buildings.Reader(testRead);
             int tmppp = 2;
-        }
-        catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
 
+//        try(FileOutputStream tFile = new FileOutputStream(new File("C:\\Users\\Vanya\\IdeaProjects\\Test\\Test.txt"));) {
+//
+//            int t1 = 1;
+//
+//        }
+//
+//        catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
     }
-
-
-
 }

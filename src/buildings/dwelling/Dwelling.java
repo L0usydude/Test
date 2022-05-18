@@ -26,6 +26,14 @@ public class Dwelling implements Building {
         }
     }
 
+    public Dwelling(int floorsAmount)
+    {
+        floors = new DwellingFloor[floorsAmount];
+        for (int i = 0; i < floorsAmount; i++) {
+            floors[i] = new DwellingFloor(0);
+        }
+    }
+
     public int getFloorsAmount(){
         return floors.length;
     }
