@@ -2,10 +2,11 @@ package buildings.dwelling;
 
 import buildings.exceptions.InvalidRoomsCountException;
 import buildings.exceptions.InvalidSpaceAreaException;
-import buildings.exceptions.SpaceIndexOutOfBoundsException;
 import buildings.interfaces.Space;
 
-public class Flat implements Space {
+import java.io.Serializable;
+
+public class Flat implements Space, Serializable {
     private double square;
     private int rooms;
 
@@ -18,7 +19,7 @@ public class Flat implements Space {
     }
 
     public Flat(double square) {
-        if (square > 200){
+        if (square > 200) {
             throw new InvalidSpaceAreaException(square, 200);
         }
         this.square = square;
@@ -26,10 +27,10 @@ public class Flat implements Space {
     }
 
     public Flat(double square, int rooms) {
-        if (square > 200){
+        if (square > 200) {
             throw new InvalidSpaceAreaException(square, 200);
         }
-        if (rooms > 10){
+        if (rooms > 10) {
             throw new InvalidRoomsCountException(rooms, 10);
         }
         this.rooms = rooms;
@@ -41,7 +42,7 @@ public class Flat implements Space {
     }
 
     public void setSquare(double square) {
-        if (square > 200){
+        if (square > 200) {
             throw new InvalidSpaceAreaException(square, 200);
         }
         this.square = square;
@@ -52,9 +53,42 @@ public class Flat implements Space {
     }
 
     public void setRooms(int rooms) {
-        if (rooms > 10){
+        if (rooms > 10) {
             throw new InvalidRoomsCountException(rooms, 10);
         }
         this.rooms = rooms;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Flat flat = (Flat) o;
+
+        if (Double.compare(flat.square, square) != 0) return false;
+        return rooms == flat.rooms;
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        temp = Double.doubleToLongBits(square);
+        result = (int) (temp ^ (temp >>> 32));
+        result = 31 * result + rooms;
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Flat{" +
+                "square=" + square +
+                ", rooms=" + rooms +
+                '}';
+    }
+
+    public Object clone() {
+        return new Flat(this.getSquare(), this.getRooms());
     }
 }

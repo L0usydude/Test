@@ -4,25 +4,28 @@ import buildings.exceptions.SpaceIndexOutOfBoundsException;
 import buildings.interfaces.Floor;
 import buildings.interfaces.Space;
 
-public class DwellingFloor implements Floor {
+import java.io.Serializable;
+import java.util.Arrays;
+
+public class DwellingFloor implements Floor, Serializable {
     private Space[] flats;
 
-    public DwellingFloor(Flat[] flats) {
+    public DwellingFloor(Space[] flats) {
         this.flats = flats;
     }
 
-    public DwellingFloor(int size){
+    public DwellingFloor(int size) {
         flats = new Flat[size];
         for (int i = 0; i < size; i++) {
             flats[i] = new Flat();
         }
     }
 
-    public int getSpacesAmount(){
+    public int getSpacesAmount() {
         return flats.length;
     }
 
-    public double getSquareAmount(){
+    public double getSquareAmount() {
         double sum = 0;
         for (Space flat : flats) {
             sum += flat.getSquare();
@@ -30,7 +33,7 @@ public class DwellingFloor implements Floor {
         return sum;
     }
 
-    public int getRoomsAmount(){
+    public int getRoomsAmount() {
         int sum = 0;
         for (Space flat : flats) {
             sum += flat.getRooms();
@@ -42,62 +45,88 @@ public class DwellingFloor implements Floor {
         return flats;
     }
 
-    public Space getSpace(int num){
-        if (num > flats.length)
-        {
+    public Space getSpace(int num) {
+        if (num > flats.length) {
             throw new SpaceIndexOutOfBoundsException(num, flats.length);
         }
         return flats[num];
     }
 
-    public void setSpace(int num, Space newFlat){
-        if (num > flats.length)
-        {
+    public void setSpace(int num, Space newFlat) {
+        if (num > flats.length) {
             throw new SpaceIndexOutOfBoundsException(num, flats.length);
         }
         this.flats[num] = newFlat;
     }
 
-    public void addSpace(int num, Space newFlat){
-        if (num > flats.length)
-        {
+    public void addSpace(int num, Space newFlat) {
+        if (num > flats.length) {
             throw new SpaceIndexOutOfBoundsException(num, flats.length);
         }
-        Space[] newFlats = new Flat[flats.length+1];
+        Space[] newFlats = new Flat[flats.length + 1];
         for (int i = 0; i < num; i++) {
             newFlats[i] = flats[i];
         }
         newFlats[num] = newFlat;
-        for (int i = num+1; i <newFlats.length; i++) {
-            newFlats[i] = flats[i-1];
+        for (int i = num + 1; i < newFlats.length; i++) {
+            newFlats[i] = flats[i - 1];
         }
         flats = newFlats;
     }
 
-    public void deleteSpace(int num){
-        if (num > flats.length)
-        {
+    public void deleteSpace(int num) {
+        if (num > flats.length) {
             throw new SpaceIndexOutOfBoundsException(num, flats.length);
         }
-        Space[] newFlats = new Flat[flats.length-1];
+        Space[] newFlats = new Flat[flats.length - 1];
         for (int i = 0; i < num; i++) {
             newFlats[i] = flats[i];
         }
-        for (int i = num; i < newFlats.length ; i++) {
-            newFlats[i] = flats[i+1];
+        for (int i = num; i < newFlats.length; i++) {
+            newFlats[i] = flats[i + 1];
         }
         flats = newFlats;
     }
 
-    public Space getBestSpace()
-    {
+    public Space getBestSpace() {
         Space flat = flats[0];
-        for (int i = 1; i <flats.length; i++) {
-            if (flat.getSquare() < flats[i].getSquare())
-            {
+        for (int i = 1; i < flats.length; i++) {
+            if (flat.getSquare() < flats[i].getSquare()) {
                 flat = flats[i];
             }
         }
         return flat;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        DwellingFloor that = (DwellingFloor) o;
+
+        // Probably incorrect - comparing Object[] arrays with Arrays.equals
+        return Arrays.equals(flats, that.flats);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(flats);
+    }
+
+    @Override
+    public String toString() {
+        return "DwellingFloor{" +
+                "flats=" + Arrays.toString(flats) +
+                '}';
+    }
+
+    @Override
+    public Object clone() {
+        Space[] sth = new Space[flats.length];
+        for (int i = 0; i < flats.length; i++) {
+            sth[i] = (Space) ((Flat) flats[i]).clone();
+        }
+        return new DwellingFloor(sth);
     }
 }

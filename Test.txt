@@ -1,1 +1,1 @@
-1 2 20.0 2 15.0 2 
+Class type - buildings.dwelling.DwellingCount of floors - 1Count of spaces on floor - 2Square - 15,000000Rooms - 2Square - 20,000000Rooms - 2

@@ -1,39 +1,39 @@
 package buildings.office;
 
-import buildings.dwelling.Flat;
 import buildings.exceptions.SpaceIndexOutOfBoundsException;
 import buildings.interfaces.Floor;
 import buildings.interfaces.Space;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OfficeFloor implements Floor {
+public class OfficeFloor implements Floor, Serializable {
     private List<Space> officeList;
 
     public OfficeFloor(List<Space> officeList) {
         this.officeList = officeList;
     }
 
-    public OfficeFloor(int count){
+    public OfficeFloor(int count) {
         officeList = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             officeList.add(new Office());
         }
     }
 
-    public OfficeFloor(Space[] offices){
+    public OfficeFloor(Space[] offices) {
         officeList = new ArrayList<>();
         for (int i = 0; i < offices.length; i++) {
             officeList.add(offices[i]);
         }
     }
 
-    public int getSpacesAmount(){
+    public int getSpacesAmount() {
         return officeList.size();
     }
 
-    public double getSquareAmount(){
+    public double getSquareAmount() {
         double sum = 0;
         for (Space office : officeList) {
             sum += office.getSquare();
@@ -41,7 +41,7 @@ public class OfficeFloor implements Floor {
         return sum;
     }
 
-    public int getRoomsAmount(){
+    public int getRoomsAmount() {
         int sum = 0;
         for (Space office : officeList) {
             sum += office.getRooms();
@@ -49,7 +49,7 @@ public class OfficeFloor implements Floor {
         return sum;
     }
 
-    public Space[] getSpaces(){
+    public Space[] getSpaces() {
         Space[] offices = new Space[officeList.size()];
         for (int i = 0; i < offices.length; i++) {
             offices[i] = officeList.get(i);
@@ -57,26 +57,23 @@ public class OfficeFloor implements Floor {
         return offices;
     }
 
-    public Space getSpace(int num){
-        if (num > officeList.size())
-        {
-            throw new SpaceIndexOutOfBoundsException(num,officeList.size());
+    public Space getSpace(int num) {
+        if (num > officeList.size()) {
+            throw new SpaceIndexOutOfBoundsException(num, officeList.size());
         }
         return officeList.get(num);
     }
 
-    public void setSpace(int num, Space newOffice){
-        if (num > officeList.size())
-        {
-            throw new SpaceIndexOutOfBoundsException(num,officeList.size());
+    public void setSpace(int num, Space newOffice) {
+        if (num > officeList.size()) {
+            throw new SpaceIndexOutOfBoundsException(num, officeList.size());
         }
         this.officeList.set(num, newOffice);
     }
 
-    public void addSpace(int num, Space newOffice){
-        if (num > officeList.size())
-        {
-            throw new SpaceIndexOutOfBoundsException(num,officeList.size());
+    public void addSpace(int num, Space newOffice) {
+        if (num > officeList.size()) {
+            throw new SpaceIndexOutOfBoundsException(num, officeList.size());
         }
         List<Space> offices = new ArrayList<>();
         for (int i = 0; i < num; i++) {
@@ -88,22 +85,52 @@ public class OfficeFloor implements Floor {
         }
     }
 
-    public void deleteSpace(int num){
-        if (num > officeList.size())
-        {
-            throw new SpaceIndexOutOfBoundsException(num,officeList.size());
+    public void deleteSpace(int num) {
+        if (num > officeList.size()) {
+            throw new SpaceIndexOutOfBoundsException(num, officeList.size());
         }
         officeList.remove(num);
     }
 
-    public Space getBestSpace(){
+    public Space getBestSpace() {
         Space Office = officeList.get(0);
-        for (Space i: officeList) {
-            if (i.getSquare() > Office.getSquare()){
+        for (Space i : officeList) {
+            if (i.getSquare() > Office.getSquare()) {
                 Office = i;
             }
         }
         return Office;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        OfficeFloor that = (OfficeFloor) o;
+
+        return officeList != null ? officeList.equals(that.officeList) : that.officeList == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return officeList != null ? officeList.hashCode() : 0;
+    }
+
+    @Override
+    public String toString() {
+        return "OfficeFloor{" +
+                "officeList=" + officeList +
+                '}';
+    }
+
+    @Override
+    public Object clone() {
+        List<Space> sth = new ArrayList<>();
+        for (var i : officeList) {
+            sth.add((Space) ((Office) i).clone());
+        }
+        return new OfficeFloor(sth);
     }
 }
 

@@ -2,7 +2,9 @@ package buildings.office;
 
 import buildings.interfaces.Space;
 
-public class Office implements Space {
+import java.io.Serializable;
+
+public class Office implements Space, Serializable {
     private double square;
     private int rooms;
 
@@ -38,5 +40,39 @@ public class Office implements Space {
 
     public void setRooms(int rooms) {
         this.rooms = rooms;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Office office = (Office) o;
+
+        if (Double.compare(office.square, square) != 0) return false;
+        return rooms == office.rooms;
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        temp = Double.doubleToLongBits(square);
+        result = (int) (temp ^ (temp >>> 32));
+        result = 31 * result + rooms;
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Office{" +
+                "square=" + square +
+                ", rooms=" + rooms +
+                '}';
+    }
+
+    @Override
+    public Object clone() {
+        return new Office(this.getSquare(), this.getRooms());
     }
 }
