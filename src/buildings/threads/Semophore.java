@@ -2,28 +2,28 @@ package buildings.threads;
 
 public class Semophore {
     private boolean flagR;
-    private boolean flagC;
+//    private boolean flagC;
 
     public Semophore(boolean flagR, boolean flagC) {
         this.flagR = flagR;
-        this.flagC = flagC;
+//        this.flagC = flagC;
     }
 
     public boolean getR(){
         return flagR;
     }
 
-    public boolean getC(){
-        return flagC;
+//    public boolean getC(){
+//        return flagC;
+//    }
+
+    public void setFlagR() {
+        this.flagR = !flagR;
     }
 
-    public void setFlagR(boolean flagR) {
-        this.flagR = flagR;
-    }
-
-    public void setFlagC(boolean flagC) {
-        this.flagC = flagC;
-    }
+//    public void setFlagC() {
+//        this.flagC = !flagC;
+//    }
 
 
 }

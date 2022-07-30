@@ -14,16 +14,17 @@ public class SequentalCleaner implements Runnable {
     @Override
     public void run() {
         for (int i = 0; i < floor.getSpacesAmount(); i++) {
-            while (!sem.getC()){
-                try {
-                    this.wait(1);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+            while (!sem.getR()){
+//                try {
+//                    this.wait(1);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+                int u = 1;
+                u += 1;
             }
             System.out.println("Cleaning space number " + i + " with total area: " + floor.getSpace(i).getSquare());
-            sem.setFlagR(!sem.getR());
-            sem.setFlagC(!sem.getC());
+            sem.setFlagR();
         }
         System.out.println("Cleaners thread has ended");
     }

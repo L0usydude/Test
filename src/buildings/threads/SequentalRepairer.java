@@ -15,15 +15,16 @@ public class SequentalRepairer implements Runnable {
     public void run() {
         for (int i = 0; i < floor.getSpacesAmount(); i++) {
             while (!sem.getR()){
-                try {
-                    this.wait(1);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+//                try {
+//                    this.wait(1);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+                int u = 1;
+                u += 1;
             }
             System.out.println("repairing space number " + i + " with total area: " + floor.getSpace(i).getSquare());
-            sem.setFlagR(!sem.getR());
-            sem.setFlagC(!sem.getC());
+            sem.setFlagR();
         }
         System.out.println("Repairers thread has ended");
     }

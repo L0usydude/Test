@@ -1,6 +1,8 @@
+import buildings.dwelling.DwellingFloor;
 import buildings.dwelling.Flat;
 import buildings.dwelling.hotel.Hotel;
 import buildings.dwelling.hotel.HotelFloor;
+import buildings.interfaces.Floor;
 import buildings.interfaces.Space;
 import buildings.threads.*;
 
@@ -23,11 +25,12 @@ public class Main {
         Space sth = h1.getBestSpace();
         int aaaaa = h1.getMaxStars();
         int y = 0;
+        Floor floor = new DwellingFloor(10);
         Thread thr1 = new Repairer(fl1);
         Thread thr2 = new Cleaner(fl1);
         Semophore sem = new Semophore(true,false);
-        Thread thr3 = new Thread(new SequentalRepairer(fl1, sem));
-        Thread thr4 = new Thread(new SequentalCleaner(fl1, sem));
+        Thread thr3 = new Thread(new SequentalRepairer(floor, sem));
+        Thread thr4 = new Thread(new SequentalCleaner(floor, sem));
 
         thr3.start();
         thr4.start();
