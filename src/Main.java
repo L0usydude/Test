@@ -5,6 +5,11 @@ import buildings.dwelling.hotel.HotelFloor;
 import buildings.interfaces.Floor;
 import buildings.interfaces.Space;
 import buildings.threads.*;
+import buildings.utils.Buildings;
+
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 
 public class Main {
     public static void main(String[] args) {
@@ -21,18 +26,26 @@ public class Main {
         HotelFloor[] arrhl = new HotelFloor[2];
         arrhl[0] = fl1;
         arrhl[1] = fl2;
+        HotelFloor[] arrhl2 = new HotelFloor[2];
+        arrhl2[0] = fl2;
+        arrhl2[1] = fl1;
+        HotelFloor[] arrhl3 = new HotelFloor[1];
+        arrhl3[0] = fl1;
+        HotelFloor[] arrhl4 = new HotelFloor[1];
+        arrhl4[0] = fl2;
+        Hotel h4 = new Hotel(arrhl3);
+        Hotel h3 = new Hotel(arrhl4);
         Hotel h1 = new Hotel(arrhl);
+        Hotel h2 = new Hotel(arrhl2);
         Space sth = h1.getBestSpace();
-        int aaaaa = h1.getMaxStars();
-        int y = 0;
         Floor floor = new DwellingFloor(10);
-        Thread thr1 = new Repairer(fl1);
-        Thread thr2 = new Cleaner(fl1);
-        Semophore sem = new Semophore(true,false);
-        Thread thr3 = new Thread(new SequentalRepairer(floor, sem));
-        Thread thr4 = new Thread(new SequentalCleaner(floor, sem));
+        try (Writer sth1 = new FileWriter("C:\\Users\\Vanya\\IdeaProjects\\Test\\Info.txt")) {
+            Buildings.writeBuilding(h1, sth1);
+            Buildings.writeBuilding(h2, sth1);
+            Buildings.writeBuilding(h3, sth1);
+            Buildings.writeBuilding(h4, sth1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        thr3.start();
-        thr4.start();
-    }
-}
+    }}

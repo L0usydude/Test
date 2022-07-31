@@ -50,6 +50,7 @@ public class Buildings {
                 output.write(sth.getFloor(i).getSpace(j).getRooms() + " ");
             }
         }
+        output.write("\n");
         output.flush();
     }
 
