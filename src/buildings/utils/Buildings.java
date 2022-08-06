@@ -62,7 +62,7 @@ public class Buildings {
         for (int i = 0; i < s.getFloorsAmount(); i++) {
             out.nextToken();
             Floor tmpFloor = new DwellingFloor((int) out.nval);
-            for (int j = 0; j < (int) out.nval; j++) {
+            for (int j = 0; j < tmpFloor.getSpacesAmount(); j++) {
                 out.nextToken();
                 double tmp2 = out.nval;
                 out.nextToken();
@@ -97,5 +97,6 @@ public class Buildings {
         }
         form.format("\n");
     }
+
 }
 

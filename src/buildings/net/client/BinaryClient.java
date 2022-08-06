@@ -16,7 +16,8 @@ public class BinaryClient {
             DataInputStream dis = new DataInputStream(socket.getInputStream());
             DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
             Scanner scanner = new Scanner(new FileReader("C:\\Users\\Vanya\\IdeaProjects\\Test\\Type.txt"));
-            Reader reader = new FileReader("C:\\Users\\Vanya\\IdeaProjects\\Test\\Info.txt")) {
+            Reader reader = new FileReader("C:\\Users\\Vanya\\IdeaProjects\\Test\\Info.txt");
+            Writer writer = new FileWriter("C:\\Users\\Vanya\\IdeaProjects\\Test\\Result.txt")) {
             while (scanner.hasNext()){
                 String type = scanner.nextLine();
                 System.out.println(type);
@@ -25,6 +26,9 @@ public class BinaryClient {
                 System.out.println("read");
                 Buildings.outputBuilding(sth,dos);
                 System.out.println("send");
+                String result = dis.readUTF();
+                writer.write(result);
+
             }
 
 
