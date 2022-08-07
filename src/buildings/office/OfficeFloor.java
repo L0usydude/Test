@@ -6,6 +6,7 @@ import buildings.interfaces.Space;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class OfficeFloor implements Floor, Serializable {
@@ -131,6 +132,36 @@ public class OfficeFloor implements Floor, Serializable {
             sth.add((Space) ((Office) i).clone());
         }
         return new OfficeFloor(sth);
+    }
+    @Override
+    public Iterator<Space> iterator() {
+        return new Iterator<Space>() {
+            int index1 = 0;
+            @Override
+            public boolean hasNext() {
+                return index1 < officeList.size();
+            }
+
+            @Override
+            public Space next() {
+                return officeList.get(index1++);
+            }
+        };
+    }
+
+    @Override
+    public int compareTo(Floor o) {
+        if (this.getSquareAmount() == o.getSquareAmount())
+        {
+            return 0;
+        }
+        else if (this.getSquareAmount() < o.getSquareAmount())
+        {
+            return -1;
+        }
+        else {
+            return 1;
+        }
     }
 }
 

@@ -33,6 +33,9 @@ public class Main {
         arrhl3[0] = fl1;
         HotelFloor[] arrhl4 = new HotelFloor[1];
         arrhl4[0] = fl2;
+        for (Space obj: fl1){
+            System.out.println(1);
+        }
         Hotel h4 = new Hotel(arrhl3);
         Hotel h3 = new Hotel(arrhl4);
         Hotel h1 = new Hotel(arrhl);

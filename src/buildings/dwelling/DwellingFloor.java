@@ -6,6 +6,7 @@ import buildings.interfaces.Space;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Iterator;
 
 public class DwellingFloor implements Floor, Serializable {
     private Space[] flats;
@@ -128,5 +129,37 @@ public class DwellingFloor implements Floor, Serializable {
             sth[i] = (Space) ((Flat) flats[i]).clone();
         }
         return new DwellingFloor(sth);
+    }
+
+    @Override
+    public Iterator<Space> iterator() {
+        return new Iterator<Space>() {
+            int index1 = 0;
+            @Override
+            public boolean hasNext() {
+                return index1 < flats.length;
+            }
+
+            @Override
+            public Space next() {
+                return flats[index1++];
+            }
+        };
+    }
+
+
+    @Override
+    public int compareTo(Floor o) {
+        if (this.getSquareAmount() == o.getSquareAmount())
+        {
+            return 0;
+        }
+        else if (this.getSquareAmount() < o.getSquareAmount())
+        {
+            return -1;
+        }
+        else {
+            return 1;
+        }
     }
 }

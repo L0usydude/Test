@@ -1,6 +1,6 @@
 package buildings.interfaces;
 
-public interface Floor {
+public interface Floor extends Iterable<Space>, Comparable<Floor>{
     int getSpacesAmount();
 
     double getSquareAmount();
@@ -18,4 +18,6 @@ public interface Floor {
     void deleteSpace(int num);
 
     Space getBestSpace();
+
+
 }
