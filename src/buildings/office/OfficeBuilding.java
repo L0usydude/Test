@@ -32,13 +32,12 @@ public class OfficeBuilding implements Building, Serializable {
         }
     }
 
-//    public OfficeBuilding(int floorsAmount){
-//        officeFloorList = new ArrayList<>();
-//        for (int i = 0; i < floorsAmount; i++){
-//            officeFloorList.add(new OfficeFloor()){
-//            };
-//        }
-//    }
+    public OfficeBuilding(int floorsAmount){
+        officeFloorList = new ArrayList<>();
+        for (int i = 0; i < floorsAmount; i++){
+            officeFloorList.add(new OfficeFloor());
+        };
+    }
 
     public int getFloorsAmount() {
         return officeFloorList.size();

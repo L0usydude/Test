@@ -1,6 +1,7 @@
 package buildings.dwelling.hotel;
 
 import buildings.dwelling.DwellingFloor;
+import buildings.dwelling.Flat;
 import buildings.interfaces.Space;
 
 public class HotelFloor extends DwellingFloor {
@@ -11,6 +12,10 @@ public class HotelFloor extends DwellingFloor {
 
     public HotelFloor(Space[] flats) {
         super(flats);
+    }
+
+    public HotelFloor(int count){
+        super(count);
     }
 
     public HotelFloor(int size, int stars) {

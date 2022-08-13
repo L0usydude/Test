@@ -30,6 +30,10 @@ public class OfficeFloor implements Floor, Serializable {
         }
     }
 
+    public OfficeFloor(){
+        officeList = new ArrayList<>();
+    }
+
     public int getSpacesAmount() {
         return officeList.size();
     }

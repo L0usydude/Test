@@ -6,5 +6,6 @@ public interface BuildingFactory {
     Floor createFloor(int count);
     Floor createFloor(Space[] spaces);
     Building createBuilding(Floor[] floors);
-    Building createBuilding(int floorsAmount, int officesAmount);
+    Building createBuilding(int floorsAmount, int[] officesAmount);
+    Building createBuilding(int floorsamount);
 }

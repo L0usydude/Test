@@ -1,9 +1,11 @@
 package buildings.utils;
 
 import buildings.dwelling.Dwelling;
+import buildings.dwelling.DwellingFactory;
 import buildings.dwelling.DwellingFloor;
 import buildings.dwelling.Flat;
 import buildings.interfaces.Building;
+import buildings.interfaces.BuildingFactory;
 import buildings.interfaces.Floor;
 import buildings.interfaces.Space;
 
@@ -11,6 +13,7 @@ import java.io.*;
 import java.util.Formatter;
 
 public class Buildings {
+    private static BuildingFactory factory = new DwellingFactory();
     public static void outputBuilding(Building sth, OutputStream output) throws IOException {
         DataOutputStream stream = new DataOutputStream(output);
         stream.writeInt(sth.getFloorsAmount());
@@ -27,18 +30,15 @@ public class Buildings {
 
     public static Building inputBuilding(InputStream input) throws IOException {
         DataInputStream stream = new DataInputStream(input);
-        Building result = new Dwelling(stream.readInt(), stream.readInt());
-
-        for (int i = 0; i < result.getFloorsAmount(); i++) {
-            Floor tmpFloor = new DwellingFloor(stream.readInt());
-            int count = stream.readInt();
-            for (int j = 0; j < count; j++) {
-                Space tmp = new Flat(stream.readDouble(), stream.readInt());
-                tmpFloor.setSpace(j, tmp);
+        Floor[] flors = new Floor[stream.readInt()];
+        for(int i = 0; i < flors.length; i++){
+            flors[i] = factory.createFloor(stream.readInt());
+            for (int j = 0; j < flors[i].getSpacesAmount(); j++) {
+                Space tmp = factory.createSpace(stream.readDouble(), stream.readInt());
+                flors[i].setSpace(j,tmp);
             }
-            result.setFloor(i, tmpFloor);
         }
-        return result;
+        return factory.createBuilding(flors);
     }
 
     public static void writeBuilding(Building sth, Writer output) throws IOException {
@@ -58,15 +58,15 @@ public class Buildings {
         StreamTokenizer out = new StreamTokenizer(input);
         out.nextToken();
         int tmp = (int) out.nval;
-        Building s = new Dwelling(tmp);
+        Building s = factory.createBuilding(tmp);
         for (int i = 0; i < s.getFloorsAmount(); i++) {
             out.nextToken();
-            Floor tmpFloor = new DwellingFloor((int) out.nval);
+            Floor tmpFloor = factory.createFloor((int) out.nval);
             for (int j = 0; j < tmpFloor.getSpacesAmount(); j++) {
                 out.nextToken();
                 double tmp2 = out.nval;
                 out.nextToken();
-                Space tmpSpace = new Flat(tmp2, (int) out.nval);
+                Space tmpSpace = factory.createSpace(tmp2, (int) out.nval);
                 tmpFloor.setSpace(j, tmpSpace);
             }
             s.setFloor(i, tmpFloor);
@@ -97,6 +97,8 @@ public class Buildings {
         }
         form.format("\n");
     }
-
+    public static void setBuildingFactory(BuildingFactory sth){
+        factory = sth;
+    }
 }
 
