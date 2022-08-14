@@ -1,4 +1,4 @@
-package buildings.net.server;
+package buildings.threads;
 
 import buildings.dwelling.DwellingFactory;
 import buildings.dwelling.hotel.HotelFactory;
@@ -9,43 +9,49 @@ import buildings.utils.Buildings;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.ServerSocket;
 import java.net.Socket;
 
-public class BinaryServer {
-    public static void main(String[] args){
-        try(ServerSocket serverSocket = new ServerSocket(8000)) {
-            System.out.println("server start");
-            Socket socket = serverSocket.accept();
+public class ClientRead extends Thread{
+    private Socket socket;
+
+    public ClientRead(Socket newsocket){
+        this.socket = newsocket;
+    }
+
+    @Override
+    public void run() {
+        try {
+
             DataInputStream dis = new DataInputStream(socket.getInputStream());
             DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
             while (true) {
                 try {
                     String type = dis.readUTF();
-                    if ("Dwelling".equals(type))
-                    {
+                    if ("Dwelling".equals(type)) {
                         Buildings.setBuildingFactory(new DwellingFactory());
-                    }
-                    else if ("Hotel".equals(type)){
+                    } else if ("Hotel".equals(type)) {
                         Buildings.setBuildingFactory(new HotelFactory());
-                    }
-                    else if ("Office".equals(type)){
+                    } else if ("Office".equals(type)) {
                         Buildings.setBuildingFactory(new OfficeFactory());
                     }
-
-                    System.out.println("type has been read");;
+                    System.out.println("type has been read");
                     Building sth = Buildings.inputBuilding(dis);
                     System.out.println("building has been read");
                     String res = result(sth, type);
                     dos.writeUTF(res);
+                    dos.flush();
                     System.out.println("result has been send");
                 } catch (IOException e) {
                     e.printStackTrace();
+                    break;
                 }
             }
+            dis.close();
+            dos.close();
 
-        } catch (IOException e) {
+        }
+
+        catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -63,4 +69,4 @@ public class BinaryServer {
         }
         return square + "";
     }
-}
+    }

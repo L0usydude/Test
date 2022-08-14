@@ -17,7 +17,6 @@ public class Buildings {
     public static void outputBuilding(Building sth, OutputStream output) throws IOException {
         DataOutputStream stream = new DataOutputStream(output);
         stream.writeInt(sth.getFloorsAmount());
-        stream.writeInt(sth.getSpacesAmount());
         for (int i = 0; i < sth.getFloorsAmount(); i++) {
             stream.writeInt(sth.getFloor(i).getSpacesAmount());
             for (int j = 0; j < sth.getFloor(i).getSpacesAmount(); j++) {
