@@ -10,6 +10,7 @@ import buildings.interfaces.Floor;
 import buildings.interfaces.Space;
 
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Formatter;
 
 public class Buildings {
@@ -98,6 +99,64 @@ public class Buildings {
     }
     public static void setBuildingFactory(BuildingFactory sth){
         factory = sth;
+    }
+
+    public static Space createSpace(double square) {
+        return factory.createSpace(square);
+    }
+
+    public static Space createSpace(double square, int rooms) {
+        return factory.createSpace(square, rooms);
+    }
+
+    public static Floor createFloor(int count) {
+        return factory.createFloor(count);
+    }
+
+    public static Floor createFloor(Space[] spaces) {
+        return factory.createFloor(spaces);
+    }
+
+    public static Building createBuilding(Floor[] floors) {
+        return factory.createBuilding(floors);
+    }
+
+    public static Building createBuilding(int floorsAmount, int[] officesAmount) {
+        return factory.createBuilding(floorsAmount, officesAmount);
+    }
+
+    public static Building createBuilding(int floorsamount) {
+        return factory.createBuilding(floorsamount);
+    }
+
+////////////////////////////////////////////////////////////////////////////
+
+    public static <T extends Space> Space createSpace(double square, Class<T> spaceClass) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        return spaceClass.getConstructor(double.class).newInstance(square);
+    }
+
+    public static <T extends Space> Space createSpace(double square, int rooms, Class<T> spaceClass) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        return spaceClass.getConstructor(double.class, int.class).newInstance(square,rooms);
+    }
+
+    public static <T extends Floor> Floor createFloor(int count, Class<T> floorClass) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        return floorClass.getConstructor(int.class).newInstance(count);
+    }
+
+    public static <T extends Floor> Floor createFloor(Space[] spaces, Class<T> floorClass) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        return floorClass.getConstructor(Space[].class).newInstance(spaces);
+    }
+
+    public static <T extends Building> Building createBuilding(Floor[] floors, Class<T> buildingClass) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        return buildingClass.getConstructor(Floor[].class).newInstance(floors);
+    }
+
+    public static <T extends Building> Building createBuilding(int floorsAmount, int[] officesAmount, Class<T> buildingClass) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        return buildingClass.getConstructor(int.class, int[].class).newInstance(floorsAmount,officesAmount);
+    }
+
+    public static <T extends Building> Building createBuilding(int floorsamount, Class<T> buildingClass) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        return buildingClass.getConstructor(int.class).newInstance(floorsamount);
     }
 }
 
