@@ -28,17 +28,17 @@ public class Buildings {
         stream.flush();
     }
 
-    public static Building inputBuilding(InputStream input) throws IOException {
+    public static <B extends Building, F extends Floor, S extends Space> Building inputBuilding(InputStream input, Class<B> buildingClass, Class<F> floorClass, Class<S> spaceClass) throws IOException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         DataInputStream stream = new DataInputStream(input);
         Floor[] flors = new Floor[stream.readInt()];
         for(int i = 0; i < flors.length; i++){
-            flors[i] = factory.createFloor(stream.readInt());
+            flors[i] = createFloor(stream.readInt(), floorClass);
             for (int j = 0; j < flors[i].getSpacesAmount(); j++) {
-                Space tmp = factory.createSpace(stream.readDouble(), stream.readInt());
+                Space tmp = createSpace(stream.readDouble(), stream.readInt(), spaceClass);
                 flors[i].setSpace(j,tmp);
             }
         }
-        return factory.createBuilding(flors);
+        return createBuilding(flors, buildingClass);
     }
 
     public static void writeBuilding(Building sth, Writer output) throws IOException {
@@ -54,19 +54,19 @@ public class Buildings {
         output.flush();
     }
 
-    public static Building readBuilding(Reader input) throws IOException {
+    public static <B extends Building, F extends Floor, S extends Space> Building readBuilding(Reader input, Class<B> buildingClass, Class<F> floorClass, Class<S> spaceClass) throws IOException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         StreamTokenizer out = new StreamTokenizer(input);
         out.nextToken();
         int tmp = (int) out.nval;
-        Building s = factory.createBuilding(tmp);
+        Building s = createBuilding(tmp, buildingClass);
         for (int i = 0; i < s.getFloorsAmount(); i++) {
             out.nextToken();
-            Floor tmpFloor = factory.createFloor((int) out.nval);
+            Floor tmpFloor = createFloor((int) out.nval, floorClass);
             for (int j = 0; j < tmpFloor.getSpacesAmount(); j++) {
                 out.nextToken();
                 double tmp2 = out.nval;
                 out.nextToken();
-                Space tmpSpace = factory.createSpace(tmp2, (int) out.nval);
+                Space tmpSpace = createSpace(tmp2, (int) out.nval, spaceClass);
                 tmpFloor.setSpace(j, tmpSpace);
             }
             s.setFloor(i, tmpFloor);
@@ -144,11 +144,11 @@ public class Buildings {
     }
 
     public static <T extends Floor> Floor createFloor(Space[] spaces, Class<T> floorClass) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-        return floorClass.getConstructor(Space[].class).newInstance(spaces);
+        return floorClass.getConstructor(Space[].class).newInstance(new Object[] {spaces});
     }
 
     public static <T extends Building> Building createBuilding(Floor[] floors, Class<T> buildingClass) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-        return buildingClass.getConstructor(Floor[].class).newInstance(floors);
+        return buildingClass.getConstructor(Floor[].class).newInstance(new Object[] {floors});
     }
 
     public static <T extends Building> Building createBuilding(int floorsAmount, int[] officesAmount, Class<T> buildingClass) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {

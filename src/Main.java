@@ -2,6 +2,7 @@ import buildings.dwelling.DwellingFloor;
 import buildings.dwelling.Flat;
 import buildings.dwelling.hotel.Hotel;
 import buildings.dwelling.hotel.HotelFloor;
+import buildings.interfaces.Building;
 import buildings.interfaces.Floor;
 import buildings.interfaces.Space;
 import buildings.threads.*;
@@ -9,6 +10,7 @@ import buildings.utils.Buildings;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Reader;
 import java.io.Writer;
 
 public class Main {

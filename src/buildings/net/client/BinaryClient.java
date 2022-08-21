@@ -1,11 +1,19 @@
 package buildings.net.client;
 
 import buildings.dwelling.Dwelling;
+import buildings.dwelling.DwellingFloor;
+import buildings.dwelling.Flat;
 import buildings.dwelling.hotel.Hotel;
+import buildings.dwelling.hotel.HotelFloor;
 import buildings.interfaces.Building;
+import buildings.interfaces.Space;
+import buildings.office.Office;
+import buildings.office.OfficeBuilding;
+import buildings.office.OfficeFloor;
 import buildings.utils.Buildings;
 
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
@@ -22,7 +30,26 @@ public class BinaryClient {
                 String type = scanner.nextLine();
                 System.out.println(type);
                 dos.writeUTF(type);
-                Building sth = Buildings.readBuilding(reader);
+                Class buildingClass = null, floorClass = null, spaceClass = null;
+                switch (type) {
+                    case "Dwelling" -> {
+                        buildingClass = Dwelling.class;
+                        floorClass = DwellingFloor.class;
+                        spaceClass = Flat.class;
+                    }
+                    case "Office" -> {
+                        buildingClass = OfficeBuilding.class;
+                        floorClass = OfficeFloor.class;
+                        spaceClass = Office.class;
+                    }
+                    case "Hotel" -> {
+                        buildingClass = Hotel.class;
+                        floorClass = HotelFloor.class;
+                        spaceClass = Flat.class;
+                    }
+                }
+
+                Building sth = Buildings.readBuilding(reader, buildingClass, floorClass, spaceClass);
                 System.out.println("read");
                 Buildings.outputBuilding(sth,dos);
                 System.out.println("send");
@@ -32,11 +59,7 @@ public class BinaryClient {
             }
 
 
-        }
-        catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
-        catch (IOException e) {
+        } catch (InvocationTargetException | IOException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
         }
     }

@@ -1,9 +1,18 @@
 package buildings.net.client;
 
+import buildings.dwelling.Dwelling;
+import buildings.dwelling.DwellingFloor;
+import buildings.dwelling.Flat;
+import buildings.dwelling.hotel.Hotel;
+import buildings.dwelling.hotel.HotelFloor;
 import buildings.interfaces.Building;
+import buildings.office.Office;
+import buildings.office.OfficeBuilding;
+import buildings.office.OfficeFloor;
 import buildings.utils.Buildings;
 
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
@@ -19,7 +28,24 @@ public class SerialClient {
             while (scanner.hasNext()){
                 String type = scanner.nextLine();
                 dos.writeUTF(type);
-                Building sth = Buildings.readBuilding(reader);
+                Class buildingClass = null, floorClass = null, spaceClass = null;
+                switch (type){
+                    case "Dwelling":
+                        buildingClass = Dwelling.class;
+                        floorClass = DwellingFloor.class;
+                        spaceClass = Flat.class;
+                        break;
+                    case "OfficeBuilding":
+                        buildingClass = OfficeBuilding.class;
+                        floorClass = OfficeFloor.class;
+                        spaceClass = Office.class;
+                        break;
+                    case "Hotel":
+                        buildingClass = Hotel.class;
+                        floorClass = HotelFloor.class;
+                        spaceClass = Flat.class;
+                }
+                Building sth = Buildings.readBuilding(reader, buildingClass, floorClass, spaceClass);
                 Buildings.serializeBuilding(sth,dos);
                 String res = dis.readUTF();
                 writer.write(res);
@@ -27,12 +53,8 @@ public class SerialClient {
             }
 
 
-        }
-        catch (UnknownHostException e) {
+        } catch (IOException | InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
         }
-        catch (IOException e) {
-            e.printStackTrace();
         }
-    }
 }
