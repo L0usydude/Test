@@ -1,6 +1,6 @@
 package buildings.interfaces;
 
-public interface Building {
+public interface Building extends Comparable<Building> {
     int getFloorsAmount();
 
     int getSpacesAmount();

@@ -158,4 +158,9 @@ public class Dwelling implements Building, Serializable {
         }
         return new Dwelling(sth);
     }
+
+    @Override
+    public int compareTo(Building o) {
+        return Double.compare(o.getSquareAmount(), this.getSquareAmount());
+    }
 }

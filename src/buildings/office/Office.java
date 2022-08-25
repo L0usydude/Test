@@ -75,4 +75,9 @@ public class Office implements Space, Serializable {
     public Object clone() {
         return new Office(this.getSquare(), this.getRooms());
     }
+
+    @Override
+    public int compareTo(Space o) {
+        return Double.compare(o.getSquare(), this.getSquare());
+    }
 }

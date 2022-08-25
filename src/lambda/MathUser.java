@@ -8,7 +8,13 @@ public class MathUser <T> {
 class main {
     public static void main(String[] args) {
         MathUser<Integer> a = new MathUser();
-        a.calc = Integer::parseInt;
+        a.calc = str -> {
+            for (int i = 0; i < 5; i++) {
+                i++;
+                System.out.println(str);
+            }
+            return null;
+        };
         System.out.println(a.calc.math1("5"));
     }
 }

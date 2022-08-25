@@ -12,15 +12,18 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
+import java.util.Comparator;
 
 public class Main {
     public static void main(String[] args) {
         Flat f1 = new Flat(40,2);
         Flat f2 = new Flat(41,2);
         Flat f3 = new Flat(42,2);
-        Flat[] arr = new Flat[2];
+        Flat[] arr = new Flat[4];
         arr[0] = f1;
         arr[1] = f3;
+        arr[2] = f2;
+        arr[3] = f1;
         Flat[] arr2 = new Flat[1];
         arr2[0] = f2;
         HotelFloor fl1 = new HotelFloor(arr);
@@ -44,13 +47,22 @@ public class Main {
         Hotel h2 = new Hotel(arrhl2);
         Space sth = h1.getBestSpace();
         Floor floor = new DwellingFloor(10);
-        try (Writer sth1 = new FileWriter("C:\\Users\\Vanya\\IdeaProjects\\Test\\Info.txt")) {
-            Buildings.writeBuilding(h1, sth1);
-            Buildings.writeBuilding(h2, sth1);
-            Buildings.writeBuilding(h3, sth1);
-            Buildings.writeBuilding(h4, sth1);
-        } catch (IOException e) {
-            e.printStackTrace();
+//        try (Writer sth1 = new FileWriter("C:\\Users\\Vanya\\IdeaProjects\\Test\\Info.txt")) {
+//            Buildings.writeBuilding(h1, sth1);
+//            Buildings.writeBuilding(h2, sth1);
+//            Buildings.writeBuilding(h3, sth1);
+//            Buildings.writeBuilding(h4, sth1);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+        for (Flat i: arr ) {
+            System.out.println(i);
         }
+        System.out.println("sf,l;f;sf;sldf");
+        Buildings.sortArrayBy(arr, (o1, o2) -> o1.compareTo(o2));
+        for (Flat i: arr ) {
+            System.out.println(i);
+        }
+        int a;
 
     }}

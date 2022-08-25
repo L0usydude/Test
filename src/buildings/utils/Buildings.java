@@ -11,6 +11,7 @@ import buildings.interfaces.Space;
 
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Comparator;
 import java.util.Formatter;
 
 public class Buildings {
@@ -97,6 +98,30 @@ public class Buildings {
         }
         form.format("\n");
     }
+
+    public static <T extends Comparable<T>> void sortArray (T[] mass){
+        for (int i = 0; i < mass.length; i++) {
+            for (int j = 0; j < mass.length - i - 1; j++) {
+                if (mass[j].compareTo(mass[j+1]) > 0){
+                    T newone = mass[j];
+                    mass[j] = mass[j+1];
+                    mass[j+1] = newone;
+                }
+            }
+        }
+    }
+    public static <T> void sortArrayBy (T[] mass, Comparator<T> comparator){
+        for (int i = 0; i < mass.length; i++) {
+            for (int j = 0; j < mass.length - i - 1; j++) {
+                if (comparator.compare(mass[j], mass[j+1]) > 0){
+                    T newone = mass[j];
+                    mass[j] = mass[j+1];
+                    mass[j+1] = newone;
+                }
+            }
+        }
+    }
+
     public static void setBuildingFactory(BuildingFactory sth){
         factory = sth;
     }

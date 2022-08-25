@@ -91,4 +91,10 @@ public class Flat implements Space, Serializable {
     public Object clone() {
         return new Flat(this.getSquare(), this.getRooms());
     }
+
+
+    @Override
+    public int compareTo(Space o) {
+        return Double.compare(o.getSquare(), this.getSquare());
+    }
 }
